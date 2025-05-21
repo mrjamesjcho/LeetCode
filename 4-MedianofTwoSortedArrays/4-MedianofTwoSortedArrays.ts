@@ -1,17 +1,21 @@
-// Last updated: 5/16/2025, 12:53:55 PM
-function lengthOfLongestSubstring(s: string): number {
-    let longestSubstring = "";
-    let currentSubstring = "";
-    [...s].forEach((char, index) => {
-        const existingCharIndex = currentSubstring.indexOf(char);
-        if (existingCharIndex > -1) {
-            currentSubstring = currentSubstring.substring(existingCharIndex + 1) + char;
+// Last updated: 5/20/2025, 10:49:36 PM
+function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
+    const length = nums1.length + nums2.length;
+    const isOdd = length % 2;
+    const medianIndex = isOdd ? (length - 1) / 2 : length / 2;
+    let current: number;
+    let prev: number;
+    for (let nums1Index = 0, nums2Index = 0; ;) {
+        if (nums1[nums1Index] < nums2[nums2Index] || nums2[nums2Index] === undefined) {
+            current = nums1[nums1Index];
+            nums1Index++;
         } else {
-            currentSubstring += char;
+            current = nums2[nums2Index];
+            nums2Index++;
         }
-        if (currentSubstring.length > longestSubstring.length) {
-            longestSubstring = currentSubstring;
+        if (nums1Index + nums2Index - 1 === medianIndex) {
+            return isOdd ? current : (current + prev) / 2
         }
-    });
-    return longestSubstring.length;
+        prev = current;
+    }
 };
